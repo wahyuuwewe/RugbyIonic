@@ -3,3 +3,10 @@ temp/
 *.DS_Store
 *.log
 *.swp
+platforms/android/.gradle/
+platforms/android/CordovaLib/build/
+/platforms/*/www/
+/platforms
+/plugins/browser.json
+/plugins/android.json
+/plugins/ios.json
