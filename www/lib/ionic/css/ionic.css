@@ -3924,13 +3924,14 @@ a.subdued {
       background-image: linear-gradient(180deg, #ddd, #ddd 50%, transparent 50%); }
   .bar.bar-stable {
     border-color: #b2b2b2;
-    background-color: #f8f8f8;
-    background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
+    /*background-color: #f8f8f8;*/
+    background-image: url("header.png")!important;		/*linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);*/
     color: #444; }
+      
     .bar.bar-stable .title {
-      color: #444; }
+		color: #444; }
     .bar.bar-stable.bar-footer {
-      background-image: linear-gradient(180deg, #b2b2b2, #b2b2b2 50%, transparent 50%); }
+      background-image: =	linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%); }
   .bar.bar-positive {
     border-color: #0c60ee;
     background-color: #387ef5;
@@ -5271,7 +5272,7 @@ ion-tabs.tabs-striped.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs
   min-height: 100%;
   max-height: 100%;
   width: 275px;
-  background-color: #fff; }
+  background-color: rgb(255, 0, 0);	/*#fff;*/ }
   .menu .scroll-content {
     z-index: 10; }
   .menu .bar-header {
