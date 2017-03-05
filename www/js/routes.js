@@ -49,6 +49,17 @@ angular.module('app.routes', [])
       }
     }
   })
+  
+  .state('menu.fixture', {
+    url: '/page5',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/fixture.html',
+        controller: 'fixtureCtrl'
+      }
+    }
+  })
+  
 
   .state('menu', {
     url: '/side-menu21',

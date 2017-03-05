@@ -49,6 +49,7 @@ angular.module('app.routes', [])
       }
     }
   })
+  
 
   .state('menu', {
     url: '/side-menu21',
