@@ -29,13 +29,23 @@ angular.module('app.routes', [])
       }
     }
   })
-
+  
   .state('menu.cloud', {
     url: '/page3',
     views: {
       'side-menu21': {
         templateUrl: 'templates/cloud.html',
         controller: 'cloudCtrl'
+      }
+    }
+  })
+
+  .state('menu.clubs', {
+    url: '/page4',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/clubs.html',
+        controller: 'clubsCtrl'
       }
     }
   })

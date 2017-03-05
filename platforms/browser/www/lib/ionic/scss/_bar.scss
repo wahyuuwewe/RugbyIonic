@@ -75,7 +75,7 @@
   &.bar-stable {
     @include bar-style($bar-stable-bg, $bar-stable-border, $bar-stable-text);
     &.bar-footer{
-      background-image: url{"../../../img/header.png"};	/*linear-gradient(180deg, $bar-stable-border, $bar-stable-border 50%, transparent 50%);*/
+      background-image: url("../../../img/header.png");	/*linear-gradient(180deg, $bar-stable-border, $bar-stable-border 50%, transparent 50%);*/
     }
   }
   &.bar-positive {
