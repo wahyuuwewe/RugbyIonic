@@ -1,9 +1,38 @@
 angular.module('app.controllers', [])
   
-.controller('homeCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('homeCtrl', ['$scope', '$http','$ionicLoading', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $http, $ionicLoading) {
+	
+$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+	});
+	$http({
+		method: "GET",
+		url: "https://ri-admin.azurewebsites.net/indonesianrugby/news/list.json"
+	}).then(function(data){
+		
+		$ionicLoading.hide();	
+		
+		
+			
+		var html = '';
+		for(var i = 0;i<data.data.length;i++){
+			html += '<article>\n';
+			html += '<img class="full" src="' + data.data[i].img + '">\n';
+			html += '<b>' + data.data[i].title + '</b>\n';
+			html += data.data[i].summary + ' <i><a href="' + data.data[i].url + '">read more...</a></i>';
+			html += '</article>\n';
+		}
+		$scope.news = html;
+		
+		
+	})
 
 
 }])
