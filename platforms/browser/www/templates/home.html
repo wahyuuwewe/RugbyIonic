@@ -12,7 +12,22 @@
 		
 	</ion-header-bar>
   <ion-content padding="true" class="has-header has-subheader" style="top:150px;" id="page1">
-    <div class="list card" id="home-card21">
+ 
+  <style>
+	.full{
+		width: 100%;
+	}
+	.half{
+		width: 50%;
+	}
+</style>
+  <div ng-bind-html="news">
+	
+	
+  </div>
+  
+  
+    <!--<div class="list card" id="home-card21">
       <div class=" item item-image">
         <img src="img/1.jpg" style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
       </div>
@@ -63,6 +78,7 @@
              <a class="item" href="#" onclick="window.open('http://rugbyindonesia.or.id/indonesian-rugby-mobile-application-launched/','_blank','location=no')"><u><i>read more ...</i></u></a>
         </div>
       </div>
-    </div>
+    </div> -->
+	
   </ion-content>
 </ion-view>

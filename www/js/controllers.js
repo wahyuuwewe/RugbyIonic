@@ -120,7 +120,7 @@ $ionicLoading.show({
 		var html = '<div>\n';
 		
 		for(var i = 0;i<data.data.length;i++){
-			html += '<a href="'+ data.data[i].url+'"><img src="' + data.data[i].img + '"></a>\n';
+			html += '<a href="'+ data.data[i].url+'"><img class="full" src="' + data.data[i].img + '"></a>\n';
 		}
 		html += '</div>';
 		$scope.fixtures = html;
