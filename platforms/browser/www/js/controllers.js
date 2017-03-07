@@ -26,13 +26,12 @@ $ionicLoading.show({
 			html += '<article>\n';
 			html += '<img class="full" src="' + data.data[i].img + '">\n';
 			html += '<b>' + data.data[i].title + '</b>\n';
-			html += data.data[i].summary + ' <i><a href="' + data.data[i].url + '">read more...</a></i>';
+			//var imgUrl= '"'+data.data[i].url + '"';
+			html += data.data[i].summary + ' <i> <a href="#" ng-click="window.open(\"' + data.data[i].url + '\",\"_system\",\"location=yes\")">read more...</a></i>\n';
 			html += '</article>\n';
 		}
 		$scope.news = html;
-		
-		
-	})
+		})
 
 
 }])
@@ -120,7 +119,7 @@ $ionicLoading.show({
 		var html = '<div>\n';
 		
 		for(var i = 0;i<data.data.length;i++){
-			html += '<a href="'+ data.data[i].url+'"><img src="' + data.data[i].img + '"></a>\n';
+			html += '<a href="'+ data.data[i].url+'"><img class="full" src="' + data.data[i].img + '"></a>\n';
 		}
 		html += '</div>';
 		$scope.fixtures = html;

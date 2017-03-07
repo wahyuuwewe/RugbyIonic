@@ -1,7 +1,10 @@
 <ion-side-menus style="" enable-menu-with-back-views="false">
   <ion-side-menu-content>
     <ion-nav-bar class="bar-stable">
-      <ion-nav-back-button></ion-nav-back-button>
+      <!--<ion-nav-back-button></ion-nav-back-button>-->
+	  <ion-nav-buttons side="left">
+        <button ui-sref="menu.home" menu-close="" class="button button-clear icon-left ion-home" ></button>
+      </ion-nav-buttons>
       <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="right"></button>
       </ion-nav-buttons>
@@ -14,7 +17,7 @@
     </ion-header-bar>-->
     <ion-content padding="false" class="side-menu-right ">
       <ion-list id="menu-list1" >
-        <ion-item id="menu-list-item1" ui-sref="menu.home" menu-close="""><i class="icon ion-ios-paper-outline">News</i></ion-item>
+        <ion-item id="menu-list-item1" ui-sref="menu.home" menu-close=""><i class="icon ion-ios-paper-outline">News</i></ion-item>
         <ion-item id="menu-list-item2" ui-sref="menu.fixture" menu-close=""><i class="icon ion-trophy">Fixtures &amp; Result</i></ion-item>
         <ion-item id="menu-list-item4" ui-sref="menu.cart" menu-close=""><i class="icon ion-android-camera">Teammate Photos</i></ion-item>
         <ion-item id="menu-list-item3" ui-sref="menu.cloud" menu-close=""><i class="icon ion-ios-americanfootball-outline">Rugby 101</i></ion-item>
@@ -33,12 +36,12 @@
 	  </style>
 	  <div id="contact" class="container" >
                 
-                    <a href="https://twitter.com/IndonesianRugby"><img class="icon" src="img/twitter.svg" alt="Twitter Logo"></a>
-                    <a href="https://www.facebook.com/indonesianrugby"><img class="icon" src="img/facebook.svg" alt="FB Logo"></a>
-                    <a href="https://vine.co/u/1035182837801902080"><img class="icon" src="img/vine.svg" alt="Vine Logo"></a>
-                    <a href="https://plus.google.com/102268870932403946446/posts"><img class="icon" src="img/gplus.svg" alt="Google+ Logo"></a>
-                    <a href="http://www.youtube.com/user/Indonesiarugby"><img class="icon" src="img/youtube.svg" alt="Youtube Logo"></a>
-                    <a href="http://instagram.com/indonesianrugby"><img class="icon" src="img/instagram.svg" alt="Instagram Logo"></a>
+                    <a href="#" onclick="window.open('https://twitter.com/IndonesianRugby','_blank','location=no')"><img class="icon" src="img/twitter.svg" alt="Twitter Logo"></a>
+                    <a href="#" onclick="window.open('https://www.facebook.com/indonesianrugby','_blank','location=no')"><img class="icon" src="img/facebook.svg" alt="FB Logo"></a>
+                    <a href="#" onclick="window.open('https://vine.co/u/1035182837801902080','_blank','location=no')"><img class="icon" src="img/vine.svg" alt="Vine Logo"></a>
+                    <a href="#" onclick="window.open('https://plus.google.com/102268870932403946446/posts','_blank','location=no')"><img class="icon" src="img/gplus.svg" alt="Google+ Logo"></a>
+                    <a href="#" onclick="window.open('http://www.youtube.com/user/Indonesiarugby','_blank','location=no')"><img class="icon" src="img/youtube.svg" alt="Youtube Logo"></a>
+                    <a href="#" onclick="window.open('http://instagram.com/indonesianrugby','_blank','location=no')"><img class="icon" src="img/instagram.svg" alt="Instagram Logo"></a>
                 </p>
                 <p>Affiliations<br/>
                     <a href="http://www.worldrugby.org/"><img class="affiliate-icon" src="img/affiliate-worldrugby.png" alt="World Rugby Logo"></a>
