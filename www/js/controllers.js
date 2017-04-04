@@ -1,5 +1,5 @@
 angular.module('app.controllers', [])
-  
+ 
 .controller('homeCtrl', ['$scope', '$http','$ionicLoading', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -38,10 +38,31 @@ $ionicLoading.show({
 
 
    
-.controller('cartCtrl', ['$scope', '$http','$ionicLoading', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('cartCtrl', ['$scope', '$http','$ionicLoading','$cordovaCamera', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $http, $ionicLoading) {
+/*
+$scope.takePicture = function(){
+	var options = { 
+            quality : 75, 
+            destinationType : Camera.DestinationType.DATA_URL, 
+            sourceType : Camera.PictureSourceType.CAMERA, 
+            allowEdit : true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 300,
+            targetHeight: 300,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false
+        };
+		
+		$cordovaCamera.getPicture(options).then(function(imageData) {
+            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+        }, function(err) {
+            // An error occured. Show a message to the user
+        });
+}*/
+
+function ($scope, $http, $ionicLoading, $cordovaCamera) {
 	$ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -71,7 +92,28 @@ function ($scope, $http, $ionicLoading) {
 		$scope.photos = html;
 		
 		
-	})
+	});
+	/*
+	$scope.takePicture = function(){
+	var options = { 
+            quality : 75, 
+            destinationType : Camera.DestinationType.DATA_URL, 
+            sourceType : Camera.PictureSourceType.CAMERA, 
+            allowEdit : true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 300,
+            targetHeight: 300,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false
+        };
+		
+		$cordovaCamera.getPicture(options).then(function(imageData) {
+            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+        }, function(err) {
+            // An error occured. Show a message to the user
+        });
+		
+}*/
 }])
    
 .controller('cloudCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -88,11 +130,56 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams) {
 	}])
 	
-.controller('clubsCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('clubsCtrl', ['$scope', '$http','$ionicLoading', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
+function ($scope, $http, $ionicLoading) {
+$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+	});
+	$http({
+		method: "GET",
+		url: "https://ri-admin.azurewebsites.net/indonesianrugby/clubs/list.json"
+	}).then(function(data){
+		
+		$ionicLoading.hide();	
+		
+		
+		
+		var html = '<div>\n';
+		var name;
+		var loc;
+		var contactName;
+		var contactValue;
+		var img;
+		
+		for(var i = 0;i<data.data.length;i++){
+			nama = data.data[i].name;
+			loc = data.data[i].location_training;
+			contactName = data.data[i].contacts[0].name;
+			contactValue = data.data[i].contacts[0].value;
+			img = data.data[i].img;
+			html+='<div class="row">';
+			
+			html+='<div class="col col-25"><img class="full" src="' + img + '"></div>';
+			html+='<div class="col col-75">';
+			html+='<h1>' + nama + '</h3>';
+			html+='Location and training:\n';
+			html+=loc+'\n'+'Contact:'+contactValue;
+			html+='</div>';
+			
+			html+='</div>';
+			//html += '<a href="#" onclick="window.open(\''+ data.data[i].url+'\',\'_blank\',\'location=no\'"><img class="full" src="' + data.data[i].img + '"></a>\n';
+		}
+		html += '</div>';
+		$scope.clubs = html;
+		
+		
+	})
 
 }])
 

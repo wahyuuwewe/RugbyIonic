@@ -1,5 +1,5 @@
 angular.module('app.controllers', [])
-  
+ 
 .controller('homeCtrl', ['$scope', '$http','$ionicLoading', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -27,7 +27,7 @@ $ionicLoading.show({
 			html += '<img class="full" src="' + data.data[i].img + '">\n';
 			html += '<b>' + data.data[i].title + '</b>\n';
 			//var imgUrl= '"'+data.data[i].url + '"';
-			html += data.data[i].summary + ' <i> <a href="#" ng-click="window.open(\"' + data.data[i].url + '\",\"_system\",\"location=yes\")">read more...</a></i>\n';
+			html += data.data[i].summary + ' <a href="#" onclick="window.open(\'' + data.data[i].url + '\',\'_blank\',\'location=no\')">read more...</a>\n';
 			html += '</article>\n';
 		}
 		$scope.news = html;
@@ -38,10 +38,31 @@ $ionicLoading.show({
 
 
    
-.controller('cartCtrl', ['$scope', '$http','$ionicLoading', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('cartCtrl', ['$scope', '$http','$ionicLoading','$cordovaCamera', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $http, $ionicLoading) {
+/*
+$scope.takePicture = function(){
+	var options = { 
+            quality : 75, 
+            destinationType : Camera.DestinationType.DATA_URL, 
+            sourceType : Camera.PictureSourceType.CAMERA, 
+            allowEdit : true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 300,
+            targetHeight: 300,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false
+        };
+		
+		$cordovaCamera.getPicture(options).then(function(imageData) {
+            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+        }, function(err) {
+            // An error occured. Show a message to the user
+        });
+}*/
+
+function ($scope, $http, $ionicLoading, $cordovaCamera) {
 	$ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -71,7 +92,26 @@ function ($scope, $http, $ionicLoading) {
 		$scope.photos = html;
 		
 		
-	})
+	});
+	$scope.takePicture = function(){
+	var options = { 
+            quality : 75, 
+            destinationType : Camera.DestinationType.DATA_URL, 
+            sourceType : Camera.PictureSourceType.CAMERA, 
+            allowEdit : true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 300,
+            targetHeight: 300,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false
+        };
+		
+		$cordovaCamera.getPicture(options).then(function(imageData) {
+            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+        }, function(err) {
+            // An error occured. Show a message to the user
+        });
+}
 }])
    
 .controller('cloudCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -119,7 +159,7 @@ $ionicLoading.show({
 		var html = '<div>\n';
 		
 		for(var i = 0;i<data.data.length;i++){
-			html += '<a href="'+ data.data[i].url+'"><img class="full" src="' + data.data[i].img + '"></a>\n';
+			html += '<a href="#" onclick="window.open(\''+ data.data[i].url+'\',\'_blank\',\'location=no\'"><img class="full" src="' + data.data[i].img + '"></a>\n';
 		}
 		html += '</div>';
 		$scope.fixtures = html;
