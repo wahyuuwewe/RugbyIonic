@@ -1,10 +1,10 @@
-angular.module('app.controllers', [])
+angular.module('app.controllers', ['ngCordova'])
  
 .controller('homeCtrl', ['$scope', '$http','$ionicLoading', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $http, $ionicLoading) {
-	
+/*	
 $ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -32,7 +32,7 @@ $ionicLoading.show({
 		}
 		$scope.news = html;
 		})
-
+*/
 
 }])
 
@@ -63,6 +63,7 @@ $scope.takePicture = function(){
 }*/
 
 function ($scope, $http, $ionicLoading, $cordovaCamera) {
+	/*
 	$ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -93,7 +94,8 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
 		
 		
 	});
-	/*
+	*/
+	
 	$scope.takePicture = function(){
 	var options = { 
             quality : 75, 
@@ -113,7 +115,27 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
             // An error occured. Show a message to the user
         });
 		
-}*/
+}
+
+	$scope.choosePhoto = function () {
+                  var options = {
+                    quality: 75,
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    allowEdit: true,
+                    encodingType: Camera.EncodingType.JPEG,
+                    targetWidth: 300,
+                    targetHeight: 300,
+                    popoverOptions: CameraPopoverOptions,
+                    saveToPhotoAlbum: false
+                };
+   
+                    $cordovaCamera.getPicture(options).then(function (imageData) {
+                        $scope.imgURI = "data:image/jpeg;base64," + imageData;
+                    }, function (err) {
+                        // An error occured. Show a message to the user
+                    });
+                }
 }])
    
 .controller('cloudCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller

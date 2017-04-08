@@ -17,10 +17,10 @@
 		
 	</ion-header-bar>
   <ion-content padding="true" class="has-header has-subheader" style="top:210px;">
-  <button class="button button-block button-assertive">
+  <button ng-click="takePicture()" class="button button-block button-assertive">
   Take a Photo
 </button>
-<button class="button button-block button-assertive">
+<button ng-click="choosePhoto()" class="button button-block button-assertive">
   Load from Library
 </button>
 <div ng-bind-html="photos">
