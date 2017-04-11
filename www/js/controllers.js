@@ -4,7 +4,7 @@ angular.module('app.controllers', ['ngCordova'])
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $http, $ionicLoading) {
-/
+
 $ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -99,7 +99,7 @@ function ($scope, $http, $ionicLoading, $cordovaCamera, $window) {
 	$scope.takePicture = function(){
 	var options = { 
             quality : 75, 
-            destinationType : Camera.DestinationType.DATA_URL, 
+            destinationType : Camera.DestinationType.DATA_URI, 
             sourceType : Camera.PictureSourceType.CAMERA, 
             allowEdit : true,
             encodingType: Camera.EncodingType.JPEG,
@@ -127,7 +127,7 @@ function ($scope, $http, $ionicLoading, $cordovaCamera, $window) {
 		maxWidth: 200,
 		showDelay: 0
 		});
-		var foto = document.getElementById("imgURI");
+		var foto = document.getElementById("img");
 		$http({
 			method: "POST",
 			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
