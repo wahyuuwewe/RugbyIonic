@@ -4,7 +4,7 @@ angular.module('app.controllers', ['ngCordova'])
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $http, $ionicLoading) {
-/*	
+/
 $ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -32,13 +32,13 @@ $ionicLoading.show({
 		}
 		$scope.news = html;
 		})
-*/
+
 
 }])
 
 
    
-.controller('cartCtrl', ['$scope', '$http','$ionicLoading','$cordovaCamera', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('cartCtrl', ['$scope', '$http','$ionicLoading','$cordovaCamera', '$window', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 /*
@@ -62,8 +62,8 @@ $scope.takePicture = function(){
         });
 }*/
 
-function ($scope, $http, $ionicLoading, $cordovaCamera) {
-	/*
+function ($scope, $http, $ionicLoading, $cordovaCamera, $window) {
+	
 	$ionicLoading.show({
 		content: 'Loading',
 		animation: 'fade-in',
@@ -94,7 +94,7 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
 		
 		
 	});
-	*/
+	
 	
 	$scope.takePicture = function(){
 	var options = { 
@@ -110,10 +110,44 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
         };
 		
 		$cordovaCamera.getPicture(options).then(function(imageData) {
-            $scope.imgURI = "data:image/jpeg;base64," + imageData;
+			//$location.path('/upload');
+			$window.location.assign('#/upload');
+            $scope.img = "data:image/jpeg;base64," + imageData;
         }, function(err) {
             // An error occured. Show a message to the user
         });
+		
+}
+
+	$scope.upload = function(){
+		$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+		});
+		var foto = document.getElementById("imgURI");
+		$http({
+			method: "POST",
+			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
+			data: {
+				photo : foto.toDataURL("image/png"),
+				userId : '8888'
+			}
+		}).then(function(data){
+		
+			$ionicLoading.hide();	
+		
+			if(data.status === "ok"){
+				$ionicPopup.alert({
+					title: 'Foto Berhasil Diunggah!',
+					template: 'anda akan kembali ke halaman sebelumnya'
+				});
+			}
+			//$location.path('/cart');
+			$window.location.assign('#/cart');
+	});	
 		
 }
 
@@ -131,6 +165,7 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
                 };
    
                     $cordovaCamera.getPicture(options).then(function (imageData) {
+						
                         $scope.imgURI = "data:image/jpeg;base64," + imageData;
                     }, function (err) {
                         // An error occured. Show a message to the user

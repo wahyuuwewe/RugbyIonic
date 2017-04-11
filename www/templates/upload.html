@@ -6,7 +6,7 @@
 		width: 50%;
 	}
 </style>
-<ion-view id="page2">
+<ion-view id="page6">
 
 	<ion-nav-title>
 			<img src="img/logo-header.png" style="display: block; width: auto; height: 100%; margin-left: auto; margin-right: auto;">
@@ -17,15 +17,12 @@
 		
 	</ion-header-bar>
   <ion-content padding="true" class="has-header has-subheader" style="top:210px;">
-  <!--<img ng-src="{{imgURI}}" id="imgURI" style="display: block; margin: 0 auto"/>-->
-  <button ng-click="takePicture()" class="button button-block button-assertive">
-  Take a Photo
+  <img ng-src="{{img}}" id="img" style="display: block; margin: 0 auto"/>
+  <button ng-click="upload()" class="button button-block button-assertive">
+  Upload
 </button>
-<button ng-click="choosePhoto()" class="button button-block button-assertive">
-  Load from Library
-</button>
-<div ng-bind-html="photos">
-
+<div>
+	<img id="imgURI" style="display: block; margin: 0 auto"/>
 </div>
   </ion-content>
 </ion-view>

@@ -59,6 +59,12 @@ angular.module('app.routes', [])
       }
     }
   })
+  
+  .state('menu.upload', {
+    url: '/page6',
+	templateUrl: 'templates/upload.html',
+    controller: 'cartCtrl'
+  })
 
 
   .state('menu', {
