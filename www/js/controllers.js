@@ -38,7 +38,7 @@ $ionicLoading.show({
 
 
    
-.controller('cartCtrl', ['$scope', '$http','$ionicLoading','$cordovaCamera', '$window', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('cartCtrl', ['$scope', '$http','$ionicLoading','$cordovaCamera', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 /*
@@ -62,7 +62,7 @@ $scope.takePicture = function(){
         });
 }*/
 
-function ($scope, $http, $ionicLoading, $cordovaCamera, $window) {
+function ($scope, $http, $ionicLoading, $cordovaCamera) {
 	
 	$ionicLoading.show({
 		content: 'Loading',
@@ -95,10 +95,8 @@ function ($scope, $http, $ionicLoading, $cordovaCamera, $window) {
 		
 	});
 	
-	
-	$scope.takePicture = function(){
 	var options = { 
-            quality : 75, 
+            quality : 50, 
             destinationType : Camera.DestinationType.DATA_URI, 
             sourceType : Camera.PictureSourceType.CAMERA, 
             allowEdit : true,
@@ -108,14 +106,18 @@ function ($scope, $http, $ionicLoading, $cordovaCamera, $window) {
             popoverOptions: CameraPopoverOptions,
             saveToPhotoAlbum: false
         };
-		
+	
+	$scope.takePicture = function(){
 		$cordovaCamera.getPicture(options).then(function(imageData) {
-			//$location.path('/upload');
-			$window.location.assign('#/upload');
-            $scope.img = "data:image/jpeg;base64," + imageData;
+			//$state.go('menu.upload');
+			//$location.path('/menu.upload');
+			//$window.location.href('templates/upload.html');
+            $scope.imgURI = "data:image/jpeg;base64," + imageData;
         }, function(err) {
             // An error occured. Show a message to the user
         });
+	
+	
 		
 }
 
@@ -145,8 +147,9 @@ function ($scope, $http, $ionicLoading, $cordovaCamera, $window) {
 					template: 'anda akan kembali ke halaman sebelumnya'
 				});
 			}
-			//$location.path('/cart');
-			$window.location.assign('#/cart');
+			$location.path('/cart');
+			//$window.location.assign('#/cart');
+			//$state.go();
 	});	
 		
 }
@@ -171,6 +174,97 @@ function ($scope, $http, $ionicLoading, $cordovaCamera, $window) {
                         // An error occured. Show a message to the user
                     });
                 }
+}])
+
+
+.controller('uploadCtrl', ['$scope', '$stateParams','$cordovaCamera', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams,$cordovaCamera) {
+var options = { 
+            quality : 50, 
+            destinationType : Camera.DestinationType.DATA_URL, 
+            sourceType : Camera.PictureSourceType.CAMERA, 
+            allowEdit : true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 300,
+            targetHeight: 300,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false
+        };
+		
+		var basePhoto;
+	
+	
+		$cordovaCamera.getPicture(options).then(function(imageData) {
+			//$state.go('menu.upload');
+			//$location.path('/menu.upload');
+			//$window.location.href('templates/upload.html');
+			var startimg = "data:image/png;base64," + imageData;
+            //$scope.imgURI = startimg;
+			
+			var canvas = document.getElementById('canvas');
+			var context = canvas.getContext('2d');
+			
+			var source = new Image();
+			source.src = startimg;
+			canvas.width = source.width;
+			canvas.height = source.height;
+			
+			context.drawImage(source,0,0);
+			basePhoto = source;
+			$scope.imgURI = canvas.toDataURL();
+			
+        }, function(err) {
+            // An error occured. Show a message to the user
+        });
+	
+	
+		
+
+
+	$scope.upload = function(){
+		$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+		});
+		var foto = document.getElementById("canvas");
+		$http({
+			method: "POST",
+			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
+			data: {
+				photo : foto.toDataURL("image/png"),
+				userId : '8888'
+			}
+		}).then(function(data){
+		
+			$ionicLoading.hide();	
+		
+			if(data.status === "ok"){
+				$ionicPopup.alert({
+					title: 'Foto Berhasil Diunggah!',
+					template: 'anda akan kembali ke halaman sebelumnya'
+				});
+			}
+			$location.path('/cart');
+			//$window.location.assign('#/cart');
+			//$state.go();
+	});	
+		
+}
+
+	$scope.frame = function(f){
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		ctx.drawImage(basePhoto,0,0);
+		var selectedFrame = document.getElementById(f);
+		
+		ctx.drawImage(selectedFrame,0,0,300,300);
+	}
+
 }])
    
 .controller('cloudCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller

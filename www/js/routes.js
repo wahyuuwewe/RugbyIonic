@@ -62,8 +62,12 @@ angular.module('app.routes', [])
   
   .state('menu.upload', {
     url: '/page6',
-	templateUrl: 'templates/upload.html',
-    controller: 'cartCtrl'
+	views:{
+		'side-menu21': {
+        templateUrl: 'templates/upload.html',
+        controller: 'uploadCtrl'
+      }
+	}
   })
 
 
