@@ -69,6 +69,16 @@ angular.module('app.routes', [])
       }
 	}
   })
+  
+  .state('menu.upload2', {
+    url: '/page7',
+	views:{
+		'side-menu21': {
+        templateUrl: 'templates/upload2.html',
+        controller: 'upload2Ctrl'
+      }
+	}
+  })
 
 
   .state('menu', {

@@ -79,11 +79,11 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
 		$ionicLoading.hide();	
 		
 		for(var i = 0;i<data.data.data.length;i+=2){
-			var html = '<div class="row full">\n';
-			html +='<div class="col half">';
-			html +='<img class="full" src=' + data.data.data[i] + '></div>\n';
+			var html = '<div class="row">\n';
+			html +='<div class="col col-50">';
+			html +='<img class="full" src="' + data.data.data[i] + '"></div>\n';
 			if(i+1 < data.data.data.length){
-				html +='<div class="col half"><img class="full" src=' + data.data.data[i+1] + '></div>\n';
+				html +='<div class="col col-50"><img class="full" src="' + data.data.data[i+1] + '"></div>\n';
 			}
 			else {
 				html += '<div class="col half"></div>\n';
@@ -177,10 +177,10 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
 }])
 
 
-.controller('uploadCtrl', ['$scope', '$stateParams','$cordovaCamera', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('uploadCtrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$cordovaCamera) {
+function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window) {
 var options = { 
             quality : 50, 
             destinationType : Camera.DestinationType.DATA_URL, 
@@ -231,13 +231,13 @@ var options = {
 		maxWidth: 200,
 		showDelay: 0
 		});
-		var foto = document.getElementById("canvas");
+		var foto = document.getElementById('canvas');
 		$http({
 			method: "POST",
 			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
 			data: {
 				photo : foto.toDataURL("image/png"),
-				userId : '8888'
+				userId : 'unregistered'
 			}
 		}).then(function(data){
 		
@@ -249,7 +249,7 @@ var options = {
 					template: 'anda akan kembali ke halaman sebelumnya'
 				});
 			}
-			$location.path('/cart');
+			$window.history.back();
 			//$window.location.assign('#/cart');
 			//$state.go();
 	});	
@@ -263,6 +263,88 @@ var options = {
 		var selectedFrame = document.getElementById(f);
 		
 		ctx.drawImage(selectedFrame,0,0,300,300);
+	}
+
+}])
+
+.controller('upload2Ctrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window) {
+var options = {
+                    quality: 50,
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    allowEdit: true,
+                    encodingType: Camera.EncodingType.JPEG,
+                    targetWidth: 300,
+                    targetHeight: 300,
+                    popoverOptions: CameraPopoverOptions,
+                    saveToPhotoAlbum: false
+		};
+		var basePhoto;
+                  
+   $cordovaCamera.getPicture(options).then(function(imageData) {
+			var startimg = "data:image/png;base64," + imageData;
+            //$scope.imgURI = startimg;
+			
+			var canvas = document.getElementById('canvas');
+			var context = canvas.getContext('2d');
+			
+			var source = new Image();
+			source.src = startimg;
+			canvas.width = source.width;
+			canvas.height = source.height;
+			
+			context.drawImage(source,0,0);
+			basePhoto = source;
+			$scope.imgURI = canvas.toDataURL();
+			
+        }, function(err) {
+            // An error occured. Show a message to the user
+        });
+                
+
+	$scope.upload = function(){
+		$ionicLoading.show({
+		content: 'Loading',
+		animation: 'fade-in',
+		showBackdrop: true,
+		maxWidth: 200,
+		showDelay: 0
+		});
+		var foto = document.getElementById('canvas');
+		$http({
+			method: "POST",
+			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
+			data: {
+				photo : foto.toDataURL("image/png"),
+				userId : 'unregistered'
+			}
+		}).then(function(data){
+		
+			$ionicLoading.hide();	
+		
+			if(data.status === "ok"){
+				$ionicPopup.alert({
+					title: 'Foto Berhasil Diunggah!',
+					template: 'anda akan kembali ke halaman sebelumnya'
+				});
+			}
+			$window.history.back();
+			//$window.location.assign('#/cart');
+			//$state.go();
+	});	
+		
+}
+
+	$scope.frame = function(f){
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		ctx.drawImage(basePhoto,0,0);
+		var selectedFrame = document.getElementById(f);
+		
+		ctx.drawImage(selectedFrame,0,0,basePhoto.width,basePhoto.height);
 	}
 
 }])
