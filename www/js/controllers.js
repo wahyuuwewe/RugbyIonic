@@ -62,7 +62,7 @@ $scope.takePicture = function(){
         });
 }*/
 
-function ($scope, $http, $ionicLoading, $cordovaCamera) {
+function ($scope, $http, $ionicLoading , $cordovaCamera) {
 	
 	$ionicLoading.show({
 		content: 'Loading',
@@ -77,12 +77,13 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
 	}).then(function(data){
 		
 		$ionicLoading.hide();	
-		
-		for(var i = 0;i<data.data.data.length;i+=2){
-			var html = '<div class="row">\n';
+		var html;
+		for(var i = 0;i<Object.keys(data.data.data).length;i+=2){
+			console.log(Object.keys(data.data.data).length);
+			html += '<div class="row">\n';
 			html +='<div class="col col-50">';
 			html +='<img class="full" src="' + data.data.data[i] + '"></div>\n';
-			if(i+1 < data.data.data.length){
+			if(i+1 < Object.keys(data.data.data).length){
 				html +='<div class="col col-50"><img class="full" src="' + data.data.data[i+1] + '"></div>\n';
 			}
 			else {
@@ -174,6 +175,8 @@ function ($scope, $http, $ionicLoading, $cordovaCamera) {
                         // An error occured. Show a message to the user
                     });
                 }
+				
+				
 }])
 
 
