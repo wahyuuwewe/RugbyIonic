@@ -121,7 +121,7 @@ function ($scope, $http, $ionicLoading , $cordovaCamera) {
 	
 		
 }
-
+/*
 	$scope.upload = function(){
 		$ionicLoading.show({
 		content: 'Loading',
@@ -136,13 +136,13 @@ function ($scope, $http, $ionicLoading , $cordovaCamera) {
 			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
 			data: {
 				photo : foto.toDataURL("image/png"),
-				userId : '8888'
+				userId : 'unregistered'
 			}
 		}).then(function(data){
 		
 			$ionicLoading.hide();	
 		
-			if(data.status === "ok"){
+			if(data.status == "ok"){
 				$ionicPopup.alert({
 					title: 'Foto Berhasil Diunggah!',
 					template: 'anda akan kembali ke halaman sebelumnya'
@@ -175,15 +175,16 @@ function ($scope, $http, $ionicLoading , $cordovaCamera) {
                         // An error occured. Show a message to the user
                     });
                 }
+				*/
 				
 				
 }])
 
 
-.controller('uploadCtrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('uploadCtrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window) {
+function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window,$http) {
 var options = { 
             quality : 50, 
             destinationType : Camera.DestinationType.DATA_URL, 
@@ -270,10 +271,10 @@ var options = {
 
 }])
 
-.controller('upload2Ctrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('upload2Ctrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window) {
+function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window,$http) {
 var options = {
                     quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL,
