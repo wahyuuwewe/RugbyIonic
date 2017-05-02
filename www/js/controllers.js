@@ -23,12 +23,12 @@ $ionicLoading.show({
 			
 		var html = '';
 		for(var i = 0;i<data.data.length;i++){
-			html += '<article>\n';
+			//html += '<article>\n';
 			html += '<img class="full" src="' + data.data[i].img + '">\n';
 			html += '<b>' + data.data[i].title + '</b>\n';
 			//var imgUrl= '"'+data.data[i].url + '"';
-			html += data.data[i].summary + ' <a href="#" onclick="window.open(\'' + data.data[i].url + '\',\'_blank\',\'location=no\')">read more...</a>\n';
-			html += '</article>\n';
+			html += data.data[i].summary + ' <a href="' + data.data[i].url + '")">read more...</a>\n';
+			//html += '</article>\n';
 		}
 		$scope.news = html;
 		})
@@ -154,7 +154,6 @@ function ($scope, $http, $ionicLoading , $cordovaCamera) {
 	});	
 		
 }
-
 	$scope.choosePhoto = function () {
                   var options = {
                     quality: 75,
@@ -181,10 +180,10 @@ function ($scope, $http, $ionicLoading , $cordovaCamera) {
 }])
 
 
-.controller('uploadCtrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('uploadCtrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window','$http','$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window,$http) {
+function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window,$http,$ionicPopup) {
 var options = { 
             quality : 50, 
             destinationType : Camera.DestinationType.DATA_URL, 
@@ -236,23 +235,35 @@ var options = {
 		showDelay: 0
 		});
 		var foto = document.getElementById('canvas');
+		var URLfoto = foto.toDataURL("image/png");
+		var newUrl = URLfoto.replace(/^data:image\/[a-z]+;base64,/, "");
 		$http({
 			method: "POST",
 			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
 			data: {
-				photo : foto.toDataURL("image/png"),
+				photo : newUrl,
 				userId : 'unregistered'
 			}
 		}).then(function(data){
 		
 			$ionicLoading.hide();	
-		
-			if(data.status === "ok"){
+			var teks;
+			for(x in data){
+				teks+=x+':'+data[x]+' - ';
+			}
+			if(data.status == "200"){
 				$ionicPopup.alert({
 					title: 'Foto Berhasil Diunggah!',
-					template: 'anda akan kembali ke halaman sebelumnya'
+					template: teks
 				});
 			}
+			else{
+				$ionicPopup.alert({
+					title: 'Foto Gagal Diunggah!',
+					template: data + ' - ' + foto.toDataURL("image/png")
+				});
+			}
+			
 			$window.history.back();
 			//$window.location.assign('#/cart');
 			//$state.go();
@@ -271,10 +282,10 @@ var options = {
 
 }])
 
-.controller('upload2Ctrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('upload2Ctrl', ['$scope', '$stateParams','$cordovaCamera','$ionicLoading','$window','$http','$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window,$http) {
+function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window,$http,$ionicPopup) {
 var options = {
                     quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL,
@@ -321,6 +332,9 @@ var options = {
 		$http({
 			method: "POST",
 			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
+			headers:{
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
 			data: {
 				photo : foto.toDataURL("image/png"),
 				userId : 'unregistered'
@@ -329,10 +343,15 @@ var options = {
 		
 			$ionicLoading.hide();	
 		
-			if(data.status === "ok"){
+			if(data.data.status === "200"){
 				$ionicPopup.alert({
 					title: 'Foto Berhasil Diunggah!',
 					template: 'anda akan kembali ke halaman sebelumnya'
+				});
+			}else{
+				$ionicPopup.alert({
+					title: 'Foto Gagal Diunggah!',
+					template: data.status +' - '+ data.message
 				});
 			}
 			$window.history.back();
@@ -440,12 +459,12 @@ $ionicLoading.show({
 		
 		
 		
-		var html = '<div>\n';
+		var html = '';
 		
 		for(var i = 0;i<data.data.length;i++){
-			html += '<a href="#" onclick="window.open(\''+ data.data[i].url+'\',\'_blank\',\'location=no\'"><img class="full" src="' + data.data[i].img + '"></a>\n';
+			html += '<a href="'+ data.data[i].url+'"><img class="full" src="' + data.data[i].img + '"></a>\n';
 		}
-		html += '</div>';
+		//html += '</div>';
 		$scope.fixtures = html;
 		
 		
