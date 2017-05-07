@@ -28,6 +28,7 @@ $ionicLoading.show({
 			html += '<b>' + data.data[i].title + '</b>\n';
 			//var imgUrl= '"'+data.data[i].url + '"';
 			html += data.data[i].summary + ' <a href="' + data.data[i].url + '")">read more...</a>\n';
+			//html += data.data[i].summary + '<a href="#" onclick="window.open(\'' + data.data[i].url + '\',\'_blank\',\'location=no\')">read more...</a>\n';
 			//html += '</article>\n';
 		}
 		$scope.news = html;
@@ -240,10 +241,11 @@ var options = {
 		$http({
 			method: "POST",
 			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
-			data: {
+			data: "userId=unregistered&photo="+newUrl
+			/*data: {
 				photo : newUrl,
 				userId : 'unregistered'
-			}
+			}*/
 		}).then(function(data){
 		
 			$ionicLoading.hide();	
