@@ -191,8 +191,8 @@ var options = {
             sourceType : Camera.PictureSourceType.CAMERA, 
             allowEdit : true,
             encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 300,
-            targetHeight: 300,
+            targetWidth: 400,
+            targetHeight: 400,
             popoverOptions: CameraPopoverOptions,
             saveToPhotoAlbum: false
         };
@@ -252,14 +252,14 @@ var options = {
 		}).then(function(data){
 		
 			$ionicLoading.hide();	
-			var teks;
+			/*var teks;
 			for(x in data){
 				teks+=x+':'+data[x]+' - ';
-			}
+			}*/
 			if(data.status == "200"){
 				$ionicPopup.alert({
 					title: 'Foto Berhasil Diunggah!',
-					template: teks
+					template: 'anda kembali ke halaman Teammate Photos'
 				});
 			}
 			else{
@@ -282,7 +282,7 @@ var options = {
 		ctx.drawImage(basePhoto,0,0);
 		var selectedFrame = document.getElementById(f);
 		
-		ctx.drawImage(selectedFrame,0,0,300,300);
+		ctx.drawImage(selectedFrame,0,0,400,400);
 	}
 
 }])
@@ -291,20 +291,24 @@ var options = {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams,$cordovaCamera,$ionicLoading,$window,$http,$ionicPopup) {
-var options = {
-                    quality: 50,
-                    destinationType: Camera.DestinationType.DATA_URL,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                    allowEdit: true,
-                    encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 300,
-                    targetHeight: 300,
-                    popoverOptions: CameraPopoverOptions,
-                    saveToPhotoAlbum: false
-		};
+var options = { 
+            quality : 50, 
+            destinationType : Camera.DestinationType.DATA_URL, 
+            sourceType : Camera.PictureSourceType.PHOTOLIBRARY, 
+            allowEdit : false,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 400,
+            targetHeight: 400,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false
+        };
+		
 		var basePhoto;
                   
    $cordovaCamera.getPicture(options).then(function(imageData) {
+			//$state.go('menu.upload');
+			//$location.path('/menu.upload');
+			//$window.location.href('templates/upload.html');
 			var startimg = "data:image/png;base64," + imageData;
             //$scope.imgURI = startimg;
 			
@@ -313,10 +317,10 @@ var options = {
 			
 			var source = new Image();
 			source.src = startimg;
-			canvas.width = source.width;
-			canvas.height = source.height;
+			canvas.width = 400;
+			canvas.height = 400;
 			
-			context.drawImage(source,0,0);
+			context.drawImage(source,0,0,400,400);
 			basePhoto = source;
 			$scope.imgURI = canvas.toDataURL();
 			
@@ -334,29 +338,29 @@ var options = {
 		showDelay: 0
 		});
 		var foto = document.getElementById('canvas');
+		var URLfoto = foto.toDataURL("image/png");
+		var newUrl = URLfoto.replace(/^data:image\/[a-z]+;base64,/, "");
 		$http({
 			method: "POST",
 			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
 			headers:{
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
-			data: {
-				photo : foto.toDataURL("image/png"),
-				userId : 'unregistered'
-			}
+			data: "userId=unregistered&photo="+newUrl
 		}).then(function(data){
 		
 			$ionicLoading.hide();	
 		
-			if(data.data.status === "200"){
+			if(data.status == "200"){
 				$ionicPopup.alert({
 					title: 'Foto Berhasil Diunggah!',
-					template: 'anda akan kembali ke halaman sebelumnya'
+					template: 'anda kembali ke halaman Teammate Photos'
 				});
-			}else{
+			}
+			else{
 				$ionicPopup.alert({
 					title: 'Foto Gagal Diunggah!',
-					template: data.status +' - '+ data.message
+					template: data + ' - ' + foto.toDataURL("image/png")
 				});
 			}
 			$window.history.back();
@@ -372,7 +376,7 @@ var options = {
 		ctx.drawImage(basePhoto,0,0);
 		var selectedFrame = document.getElementById(f);
 		
-		ctx.drawImage(selectedFrame,0,0,basePhoto.width,basePhoto.height);
+		ctx.drawImage(selectedFrame,0,0,400,400);
 	}
 
 }])
