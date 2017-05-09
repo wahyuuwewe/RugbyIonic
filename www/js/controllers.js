@@ -241,6 +241,9 @@ var options = {
 		$http({
 			method: "POST",
 			url: "https://ri-admin.azurewebsites.net/indonesianrugby/photos/upload.json",
+			headers:{
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
 			data: "userId=unregistered&photo="+newUrl
 			/*data: {
 				photo : newUrl,
